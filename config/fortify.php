@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'home' => 'auth.home',
+    'home' => RouteServiceProvider::HOME_ADMIN,
 
     /*
     |--------------------------------------------------------------------------
