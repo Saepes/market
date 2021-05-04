@@ -176,7 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Darryldecode\Cart\CartServiceProvider::class,
         Spatie\Permission\PermissionServiceProvider::class,
-
+        App\Providers\FortifyServiceProvider::class,
     ],
 
     /*

@@ -21,4 +21,13 @@ Route::get('/category/{category_id}/{product_id}', 'ProductController@showProduc
 
 Route::post('/add-to-cart', 'CartController@addToCart')->name('addToCart');
 Route::post('/deleteCart', 'CartController@delete')->name('deleteCart');
-Route::get('/login', 'Auth\AuthController@show');
+
+Route::get('/clear', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    Artisan::call('route:clear');
+    return "Кэш очищен.";
+});
+
+
