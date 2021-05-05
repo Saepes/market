@@ -5,219 +5,89 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>@yield('title')</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js"></script>
+    @yield('custom_css')
+    @yield('custom_css_head')
 </head>
 <body>
-<div class="h-screen w-screen flex bg-gray-100">
-    <!-- container -->
+<div>
+    <div x-data="{ sidebarOpen: false, darkMode: false }" :class="{ 'dark': darkMode }">
+        <div class="flex h-screen bg-gray-100 dark:bg-gray-800 font-roboto">
+            <div :class="sidebarOpen ? 'block' : 'hidden'" @click="sidebarOpen = false"
+                 class="fixed z-20 inset-0 bg-black opacity-50 transition-opacity lg:hidden"></div>
 
-    <aside
-        class="flex flex-col items-center bg-white text-gray-700 shadow h-full">
-        <!-- Side Nav Bar-->
+            <div :class="sidebarOpen ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
+                 class="fixed z-30 inset-y-0 left-0 w-60 transition duration-300 transform bg-white dark:bg-gray-900 overflow-y-auto lg:translate-x-0 lg:static lg:inset-0 p-10">
+                <div class="flex items-center justify-center mt-8">
+                    <div class="flex items-center">
+                        <span class="text-gray-800 dark:text-white text-2xl font-semibold">User</span>
+                    </div>
+                </div>
 
-        <div class="h-16 flex items-center w-full">
-            <!-- Logo Section -->
-            <a class="h-6 w-6 mx-auto" href="http://svelte.dev/">
-                <img
-                    class="h-6 w-6 mx-auto"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Svelte_Logo.svg/512px-Svelte_Logo.svg.png"
-                    alt="svelte logo" />
-            </a>
+                <nav class="flex flex-col mt-10 px-4 text-center">
+                    <a href="#"
+                       class="p-2 text-sm text-gray-700 dark:text-gray-100 bg-gray-200 dark:bg-gray-800 rounded">Overview</a>
+                    <a href="{{ route('category.index') }}"
+                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100  hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Категории</a>
+                    <a href="#"
+                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Ideas</a>
+                    <a href="#"
+                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Contacts</a>
+                    <a href="#"
+                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Settings</a>
+                </nav>
+            </div>
+
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <header class="flex justify-between items-center p-6">
+                    <div class="flex items-center space-x-4 lg:space-x-0">
+                        <button @click="sidebarOpen = true"
+                                class="text-gray-500 dark:text-gray-300 focus:outline-none lg:hidden">
+                            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 6H20M4 12H20M4 18H11" stroke="currentColor" stroke-width="2"
+                                      stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </button>
+
+                        <div>
+                            <h1 class="text-2xl font-medium text-gray-800 dark:text-white">MarketPlay</h1>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div x-data="{ dropdownOpen: false }" class="relative">
+                            <button @click="dropdownOpen = ! dropdownOpen"
+                                    class="flex items-center space-x-2 relative focus:outline-none">
+                                <h2 class="text-gray-700 dark:text-gray-300 text-sm hidden sm:block">Настройки</h2>
+                            </button>
+
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10"
+                                 x-show="dropdownOpen" x-transition:enter="transition ease-out duration-100 transform"
+                                 x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-75 transform"
+                                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                                 @click.away="dropdownOpen = false">
+
+                                <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-600 hover:text-white"
+                                   onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">{{ __('Выйти') }}</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                                    {{ csrf_field() }}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+              @yield('content')
+            </div>
         </div>
-
-        <ul>
-            <!-- Items Section -->
-            <li class="hover:bg-gray-100">
-                <a
-                    href="."
-                    class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-                    <svg
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <polyline
-                            points="22 12 16 12 14 15 10 15 8 12 2 12"></polyline>
-                        <path
-                            d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0
-							2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0
-							0-1.79 1.11z"></path>
-                    </svg>
-
-                </a>
-            </li>
-
-            <li class="hover:bg-gray-100">
-                <a
-                    href="."
-                    class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-                    <svg
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
-                    </svg>
-
-                </a>
-            </li>
-
-            <li class="hover:bg-gray-100">
-                <a
-                    href="."
-                    class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-
-                    <svg
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path
-                            d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2
-							0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                    </svg>
-
-                </a>
-            </li>
-
-            <li class="hover:bg-gray-100">
-                <a
-                    href="."
-                    class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-                    <svg
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path
-                            d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0
-							2-1.61L23 6H6"></path>
-                    </svg>
-
-                </a>
-            </li>
-
-            <li class="hover:bg-gray-100">
-                <a
-                    href="."
-                    class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-                    <svg
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path
-                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1
-							0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0
-							0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2
-							2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0
-							0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1
-							0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0
-							0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65
-							0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0
-							1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0
-							1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2
-							0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0
-							1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0
-							2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0
-							0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65
-							1.65 0 0 0-1.51 1z"></path>
-                    </svg>
-                </a>
-            </li>
-
-            <li class="hover:bg-gray-100">
-                <a
-                    href="."
-                    class="h-16 px-6 flex flex justify-center items-center w-full
-					focus:text-orange-500">
-                    <svg
-                        class="h-5 w-5"
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path
-                            d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                    </svg>
-                </a>
-            </li>
-
-        </ul>
-
-        <div class="mt-auto h-16 flex items-center w-full">
-            <!-- Action Section -->
-            <button
-                class="h-16 w-10 mx-auto flex flex justify-center items-center
-				w-full focus:text-orange-500 hover:bg-red-200 focus:outline-none">
-                <svg
-                    class="h-5 w-5 text-red-700"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                    <polyline points="16 17 21 12 16 7"></polyline>
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
-                </svg>
-            </button>
-        </div>
-    </aside>
-    @yield('content')
+    </div>
 </div>
-
 </body>
 </html>
+
+
+
+
