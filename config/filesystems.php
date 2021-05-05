@@ -52,6 +52,11 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'disk_image' => [
+            'driver' => 'local',
+            'root' => storage_path() . '/images',
+        ]
+
     ],
 
     /*
