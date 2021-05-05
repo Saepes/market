@@ -4,16 +4,43 @@
 
     <div class="flex items-center bg-gray-50 dark:bg-gray-900">
         <div class="container mx-auto">
+{{--            Error--}}
             @if (count($errors) > 0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+                <div class="bg-gray-200 p-4 rounded flex items-start text-red-600 my-4 shadow-lg max-w-xl mx-auto">
+                    <div class="text-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="fill-current w-5 pt-1" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.597 17.954l-4.591-4.55-4.555 4.596-1.405-1.405 4.547-4.592-4.593-4.552 1.405-1.405 4.588 4.543 4.545-4.589 1.416 1.403-4.546 4.587 4.592 4.548-1.403 1.416z"/></svg>
+                    </div>
+                    <div class=" px-3">
+                        <h3 class="text-red-800 font-semibold tracking-wider mb-3">
+                            Ошибка
+                        </h3>
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                                <li class="my-2">{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             @endif
-            <div class="w-full mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
+
+{{--            Success--}}
+
+            @if ($message = session()->has('Success'))
+                <div class="bg-green-100 p-4 rounded flex items-start ttext-green-600 my-4 shadow-lg max-w-xl mx-auto">
+                    <div class="text-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="fill-current w-5 pt-1" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-1.959 17l-4.5-4.319 1.395-1.435 3.08 2.937 7.021-7.183 1.422 1.409-8.418 8.591z"/></svg>
+                    </div>
+                    <div class=" px-3">
+                        <h3 class="text-green-800 font-semibold tracking-wider mb-3">
+                            Успешно
+                        </h3>
+                        <p class="py-2 text-green-700">
+                            {{ session()->get('Success') }}
+                        </p>
+                    </div>
+                </div>
+            @endif
+            <div class="w-full md:w-5/6 sm:w-9/12 mx-auto my-10 bg-white p-5 rounded-md shadow-sm">
                 <div class="text-center">
                     <h1 class="my-3 text-3xl font-semibold text-gray-700 dark:text-gray-200">Категория</h1>
                     <p class="text-gray-400 dark:text-gray-400">Укажите следующую информацию</p>

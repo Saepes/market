@@ -65,7 +65,7 @@ class CategoryController extends Controller
         $new_category -> preview_img = $filename;
         $new_category -> save();
 
-        return redirect()->back()->withSuccess('Категория добавлена');
+        return redirect()->back()->with('Success', 'Категория добавлена');
     }
 
     /**
