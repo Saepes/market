@@ -10,7 +10,7 @@
                 </div>
             </div>
             <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 sm:w-1/3">
-                <img class="object-cover object-center rounded" src="/images/categories_preview/{{ $category->preview_img }}" />
+                <img class="object-cover object-center rounded" src="{{ $img }}" />
             </div>
         </div>
     </section>

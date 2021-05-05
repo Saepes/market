@@ -47,16 +47,10 @@ class CategoryController extends Controller
             'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
         ]);
 
-        $image = \Image::make($request->file('image'));
-        $extensionImg = $request->file('image')->extension();
-        $filename = md5(microtime() . rand(0, 9999)) .'.'. $extensionImg;
-        $path = storage_path('images/categories_preview/') . $filename ;
-
-        $image->resize(null, 1000, function ($constraint) {
-            $constraint->aspectRatio();
-        });
-
-        $image->save($path);
+        $options = ['image' => $request->file('image')];
+        if(!$filename = $this->addToFileStorage($options)) {
+            return false;
+        }
 
         $new_category = new Category();
         $new_category -> name = $request->name;
@@ -69,15 +63,37 @@ class CategoryController extends Controller
     }
 
     /**
+     *
+     * Method adding image in Storage
+     *
+     */
+
+    private function addToFileStorage($options) {
+        $file = $options['image'];
+
+        $image = \Image::make($file);
+        $extensionImg = $file->extension();
+        $filename = md5(microtime() . rand(0, 9999)) .'.'. $extensionImg;
+        $path = 'categories_preview/' . $filename ;
+
+        $image->resize(null, 1000, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+
+        if(Storage::disk('disk_image')->put($path, $image->encode($extensionImg, 100))) {
+            return $filename;
+        }
+    }
+    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
-        $category = Category::where('id', $id)->first();
-        return view('admin.category.show', ['category' => $category]);
+        $image = Storage::disk('disk_image')->url('img/categories_preview/'.$category->preview_img);
+        return view('admin.category.show', ['category' => $category, 'img' => $image]);
     }
 
     /**
@@ -88,7 +104,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        $image = Storage::disk('disk_image')->url('img/categories_preview/'.$category->preview_img);
+        return view('admin.category.edit', ['category' => $category, 'img' => $image]);
     }
 
     /**
@@ -100,7 +117,34 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $request->validate([
+            'name' => 'required|min:3|max:128',
+            'alias' => 'required|min:3|max:128',
+            'desc' => 'required|min:10|max:1024',
+        ]);
+
+        $file = $request->file('image');
+
+        $category -> name = $request->name;
+        $category -> alias = $request->alias;
+        $category -> decs = $request->desc;
+
+        if($file) {
+            $request->validate([
+                'image' => 'required|mimes:jpeg,png,jpg,gif,svg',
+            ]);
+
+            $path = 'categories_preview/'. $category->preview_img;
+
+            if(Storage::disk('disk_image')->delete($path)) {
+                $options = ['image' => $file];
+                $filename = $this->addToFileStorage($options);
+                $category->preview_img = $filename;
+            }
+        }
+
+        $category->save();
+        return redirect()->back()->with('Success', 'Категория успешно обновлена');
     }
 
     /**
@@ -111,6 +155,10 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $path = 'categories_preview/'. $category->preview_img;
+        if(Storage::disk('disk_image')->delete($path)) {
+            $category->delete();
+        }
+        return redirect()->back()->with('Success', 'Категория успешно удалена');
     }
 }

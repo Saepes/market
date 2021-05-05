@@ -40,7 +40,7 @@
                 </nav>
             </div>
 
-            <div class="flex-1 flex flex-col overflow-hidden">
+            <div class="flex-1 flex flex-col overflow-auto">
                 <header class="flex justify-between items-center p-6">
                     <div class="flex items-center space-x-4 lg:space-x-0">
                         <button @click="sidebarOpen = true"
