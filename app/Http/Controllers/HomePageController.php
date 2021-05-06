@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 class HomePageController extends Controller
 {
     public function showIndex() {
+        if(!isset($_COOKIE['cart_id'])) {
+            setcookie('cart_id', uniqid());
+        }
+
         $products = Product::orderBy('created_at')->take(8)->get();
         $categories = Category::orderByDesc('id')->take(3)->get();
-        return view('home/index', ['products' => $products, 'categories' => $categories]);
+        return view('home.index', ['products' => $products, 'categories' => $categories]);
     }
 
 }
