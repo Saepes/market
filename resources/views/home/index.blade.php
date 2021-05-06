@@ -28,12 +28,9 @@
             </nav>
 
             @foreach($products as $product)
-                @if(!isset($product->img))
-                   $product->img = 'no_img';
-                @endif
                 <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
                     <a href="/category/{{ $product->categories_id }}/{{ $product->article }}">
-                        <img class="hover:grow hover:shadow-lg" src="/images/product_img/{{ $product->img }}">
+                        <img class="hover:grow hover:shadow-lg" src="{{ Storage::disk('disk_image')->url('img/product_img/' . $product->img) }}">
                         <div class="pt-3 flex items-center justify-between">
                             <p class="">{{ $product->name }}</p>
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,7 +67,7 @@
             @foreach($categories as $category)
                 <div class="w-full md:w-1/3 xl:w-1/3 p-6 flex flex-col">
                     <a class="mx-auto" href="/category/{{ $category->alias }}">
-                        <img class="hover:grow hover:shadow-lg" src="/images/categories_preview/{{ $category->preview_img }}">
+                        <img class="hover:grow hover:shadow-lg" src="{{ Storage::disk('disk_image')->url('img/categories_preview/' . $category->preview_img) }}">
                     </a>
                 </div>
             @endforeach

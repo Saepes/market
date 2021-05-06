@@ -35,7 +35,7 @@
                         <tr>
                             <td class="hidden pb-4 md:table-cell">
                                 <a href="#">
-                                    <img src="/images/product_img/{{ $productCart->attributes->img }}" class="w-20 rounded" alt="{{ $productCart->name }}">
+                                    <img src="{{ $productCart->attributes->img }}" class="w-20 rounded" alt="{{ $productCart->name }}">
                                 </a>
                             </td>
                             <td>
@@ -55,12 +55,12 @@
                             </td>
                             <td class="hidden text-right md:table-cell">
                               <span class="text-sm lg:text-base font-medium">
-                                {{ $productCart->price }}
+                                {{ $productCart->price }}$
                               </span>
                             </td>
                             <td class="text-right">
                               <span class="text-sm lg:text-base font-medium">
-                                {{ $productCart->price * $productCart->quantity }}
+                                {{ $productCart->price * $productCart->quantity }}$
                               </span>
                             </td>
                         </tr>
@@ -71,7 +71,7 @@
                 <hr class="pb-6 mt-6">
                 <div class="my-4 mt-6 mx-2 lg:flex justify-center">
                     <button class="bg-green-600 hover:bg-green-800 focus:outline-none focus:ring-2 focus:bg-green-800 focus:ring-opacity-50 p-3 px-8 rounded-xl text-white" onclick = "alert('По техническим причинам оплата невозможна')">
-                        Купить {{ $total }}
+                        Купить {{ $total }}$
                     </button>
                 </div>
             </div>

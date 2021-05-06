@@ -19,7 +19,7 @@
                 @endif
                 <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
                     <a href="/category/{{ $product->categories_id }}/{{ $product->article }}">
-                        <img class="hover:grow hover:shadow-lg" src="/images/product_img/{{ $product->img }}">
+                        <img class="hover:grow hover:shadow-lg" src="{{ Storage::disk('disk_image')->url('img/product_img/'). $product->img }}">
                         <div class="pt-3 flex items-center justify-between">
                             <p class="">{{ $product->name }}</p>
                         </div>

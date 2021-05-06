@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Darryldecode\Cart\Cart;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CartController extends Controller
 {
@@ -32,7 +33,7 @@ class CartController extends Controller
             'price' => $product->price,
             'quantity' => $request->qty,
             'attributes' => array(
-                'img' => $product->img,
+                'img' => Storage::disk('disk_image')->url('img/product_img/' . $product->img),
             )
         ));
 

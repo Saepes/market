@@ -16,7 +16,7 @@
         @foreach($categories as $category)
             <div class="w-full md:w-1/3 xl:w-1/3 p-6 flex flex-col">
                 <a class="mx-auto" href="/category/{{ $category->alias }}">
-                    <img class="hover:grow hover:shadow-lg" src="/images/categories_preview/{{ $category->preview_img }}">
+                    <img class="hover:grow hover:shadow-lg" src="{{ Storage::disk('disk_image')->url('img/categories_preview/'. $category->preview_img) }}">
                     <p class="text-center mt-4">{{ $category->name }}</p>
                 </a>
             </div>
