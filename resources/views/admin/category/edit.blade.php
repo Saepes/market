@@ -1,5 +1,4 @@
 @extends('layout.admin')
-{{--{{ dd(Storage::disk('disk_image')->url('categories_preview/'. $category->preview_img)) }}--}}
 @section('content')
 
     <div class="flex items-center bg-gray-50 dark:bg-gray-900">
