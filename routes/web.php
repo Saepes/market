@@ -37,4 +37,5 @@ Route::group(['middleware' => ['role:admin']], function () {
 Route::middleware(['role:admin'])->prefix('admin')->group(function () {
     Route::get('/', 'Admin\HomeController@index');
     Route::resource('category', Admin\CategoryController::class);
+    Route::resource('product', Admin\ProductController::class);
 });
