@@ -27,16 +27,10 @@
                 </div>
 
                 <nav class="flex flex-col mt-10 px-4 text-center">
-                    <a href="#"
-                       class="p-2 text-sm text-gray-700 dark:text-gray-100 bg-gray-200 dark:bg-gray-800 rounded">Overview</a>
+                    <a href="{{ route('product.index') }}"
+                       class="p-2 text-sm text-gray-700 dark:text-gray-100 bg-gray-200 dark:bg-gray-800 rounded">Продукты</a>
                     <a href="{{ route('category.index') }}"
                        class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100  hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Категории</a>
-                    <a href="#"
-                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Ideas</a>
-                    <a href="#"
-                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Contacts</a>
-                    <a href="#"
-                       class="mt-3 p-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-800 rounded">Settings</a>
                 </nav>
             </div>
 
