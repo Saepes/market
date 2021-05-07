@@ -26,9 +26,9 @@
                 </div>
                 <nav class="space-x-4 text-gray-300 text-sm sm:text-base">
                     @guest
-                        <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="no-underline hover:underline" href="{{ route('login') }}">{{ __('Войти') }}</a>
                         @if (Route::has('register'))
-                            <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="no-underline hover:underline" href="{{ route('register') }}">{{ __('Зарегистрироваться') }}</a>
                         @endif
                     @else
                         <span>{{ Auth::user()->name }}</span>
